@@ -39,7 +39,18 @@ class MainActivity : AppCompatActivity() {
             }
             Log.v("TAG","Trong RecyclerView, so student: ${students.size}")
             withContext(Dispatchers.Main){
-                recyclerView?.adapter = MainAdapter(listItems)
+                val adapter = MainAdapter(listItems)
+                adapter.onClick = {
+                    val selectedStudent = listItems[it]
+                    val intent = Intent(this@MainActivity,DetailActivity::class.java)
+                    intent.putExtra("mssv",selectedStudent.mssv)
+                    intent.putExtra("hoten",selectedStudent.hoten)
+                    intent.putExtra("ngaysinh",selectedStudent.ngaysinh)
+                    intent.putExtra("quequan",selectedStudent.quequan)
+                    startActivity(intent)
+                }
+                recyclerView?.adapter = adapter
+
                 recyclerView?.layoutManager = LinearLayoutManager(this@MainActivity)
             }
 
@@ -54,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         if(item.itemId == R.id.addButton){
             Log.v("TAG","addButton Clicked")
             val intent = Intent(this,AddStudentActivity::class.java)
+            intent.putExtra("mode","add")
             startActivity(intent)
         }
         return super.onOptionsItemSelected(item)

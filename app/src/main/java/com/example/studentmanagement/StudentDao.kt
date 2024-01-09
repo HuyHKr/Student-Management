@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface StudentDao {
@@ -13,6 +14,8 @@ interface StudentDao {
     suspend fun getStudentByMssv(mssv:String):Array<Student>
     @Insert
     suspend fun insert(vararg student:Student)
+    @Update
+    suspend fun update(vararg student:Student)
     @Delete
     suspend fun delete(student: Student)
 

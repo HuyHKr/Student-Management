@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailActivity">
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="2dp"
+        android:id="@+id/detail_mssv"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="mssv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+
+        android:layout_marginBottom="2dp"
+        android:id="@+id/detail_hoten"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="hoten"
+        app:layout_constraintEnd_toEndOf="@+id/detail_mssv"
+        app:layout_constraintStart_toStartOf="@+id/detail_mssv"
+        app:layout_constraintTop_toBottomOf="@+id/detail_mssv" />
+    <TextView
+
+        android:layout_marginBottom="2dp"
+        android:id="@+id/detail_ngaysinh"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="ngaysinh"
+        app:layout_constraintEnd_toEndOf="@+id/detail_hoten"
+        app:layout_constraintStart_toStartOf="@+id/detail_hoten"
+        app:layout_constraintTop_toBottomOf="@+id/detail_hoten" />
+    <TextView
+
+        android:layout_marginBottom="2dp"
+        android:id="@+id/detail_quequan"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="quequan"
+        app:layout_constraintEnd_toEndOf="@+id/detail_ngaysinh"
+        app:layout_constraintStart_toStartOf="@+id/detail_ngaysinh"
+        app:layout_constraintTop_toBottomOf="@+id/detail_ngaysinh" />
+    <TextView
+        android:layout_marginBottom="2dp"
+        android:id="@+id/detail_email"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="email"
+        app:layout_constraintEnd_toEndOf="@+id/detail_quequan"
+        app:layout_constraintStart_toStartOf="@+id/detail_quequan"
+        app:layout_constraintTop_toBottomOf="@+id/detail_quequan" />
+
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        app:layout_constraintStart_toStartOf="@+id/detail_email"
+        app:layout_constraintTop_toBottomOf="@+id/detail_email" />
+
+    <Button
+        android:id="@+id/update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        app:layout_constraintEnd_toEndOf="@+id/detail_email"
+        app:layout_constraintTop_toBottomOf="@+id/detail_email" />
+</androidx.constraintlayout.widget.ConstraintLayout>

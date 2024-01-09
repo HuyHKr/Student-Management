@@ -1,5 +1,6 @@
 package com.example.studentmanagement
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import androidx.lifecycle.lifecycleScope
 import com.example.studentmanagement.databinding.ActivityAddStudentBinding
 import kotlinx.coroutines.Dispatchers
@@ -17,9 +19,13 @@ import java.util.Calendar
 
 class AddStudentActivity : AppCompatActivity() {
     lateinit var binding: ActivityAddStudentBinding
+    var mode:String? = null// add or update
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddStudentBinding.inflate(layoutInflater)
+        mode = intent.getStringExtra("mode")
+        binding.commitButton.text = if(mode=="add") "Thêm sinh viên" else "Cập nhật"
         setContentView(binding.root)
         val inputStream: InputStream = resources.openRawResource(R.raw.quequan)
         val reader = inputStream.reader()
@@ -51,11 +57,19 @@ class AddStudentActivity : AppCompatActivity() {
             submit(mssv,hoten,ngaysinh,quequan)
 
         }
+        if(mode=="update"){
+            binding.mssvI.setText(intent.getStringExtra("mssv"))
+            binding.nameI.setText(intent.getStringExtra("hoten"))
+            binding.quequanI.setText(intent.getStringExtra("quequan"))
+            binding.birthdayI.setText(intent.getStringExtra("ngaysinh"))
+
+        }
     }
     fun submit(mssv:String,hoten:String,ngaysinh:String,quequan:String){
          lifecycleScope.launch(Dispatchers.IO) {
              val studentDao = StudentDatabase.getInstance(applicationContext).studentDao()
-             val students = studentDao.getStudentByMssv(mssv)
+             var students=arrayOf<Student>()
+             if(mode == "add")students = studentDao.getStudentByMssv(mssv)
              Log.v("TAG","students size: ${students.size}")
              when{
                  mssv==""->{
@@ -73,9 +87,22 @@ class AddStudentActivity : AppCompatActivity() {
                  else->{
                      Log.v("TAG","start insert...")
                     val newStudent = Student(mssv,hoten,ngaysinh,quequan)
-                     studentDao.insert(newStudent)
+                     when(mode){
+                         "add"->{
+                             studentDao.insert(newStudent)
+                         }
+                         "update"->{
+                             studentDao.update(newStudent)
+                             intent.putExtra("mssv",mssv)
+                             intent.putExtra("hoten",hoten)
+                             intent.putExtra("quequan",quequan)
+                             intent.putExtra("ngaysinh",ngaysinh)
+                             setResult(Activity.RESULT_OK,intent)
+
+                         }
+                     }
                      binding.error.setTextColor(Color.argb(255,0,255,0))
-                     binding.error.setText("Thêm thành công!")
+                     binding.error.setText("Thành công!")
                      delay(1000L)
                      finish()
                  }

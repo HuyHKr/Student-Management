@@ -6,8 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.studentmanagement.GlobalFunction.Companion.getEmail
 
 class MainAdapter(val listItems:ArrayList<Student>): RecyclerView.Adapter<MainAdapter.MyViewHolder>(){
+    lateinit var onClick:((Int)->Unit)
+    fun setOnItemClick(f:((Int)->Unit)){
+        onClick = f
+    }
     class MyViewHolder(val view: View):RecyclerView.ViewHolder(view){
         val name = view.findViewById<TextView>(R.id.name)
         val mssv = view.findViewById<TextView>(R.id.mssv)
@@ -29,31 +34,10 @@ class MainAdapter(val listItems:ArrayList<Student>): RecyclerView.Adapter<MainAd
         holder.mssv.text = mssv
         holder.email.text = getEmail(hoten,mssv)
         Log.v("TAG","onBindView successful!")
-    }
-    fun getEmail(hoten:String,mssv:String):String{
-        if(hoten==""||mssv=="") return ""
-
-        val listEntry = hoten.split(" ").map{removeAccent(it.lowercase())}
-        var result = listEntry[0]+"."
-        for((index,entry) in listEntry.withIndex()){
-            if(index!=0){
-                result+=entry[0]
-            }
+        holder.view.setOnClickListener{
+            onClick(position)
         }
-        result+=mssv.substring(2,8)
-        Log.v("TAG","email: ${result+"@sis.hust.edu.vn"}")
-        return result+"@sis.hust.edu.vn"
     }
-    fun removeAccent(s: String): String {
-        val original = arrayOf("á", "à", "ả", "ã", "ạ", "ă", "ắ", "ằ", "ẳ", "ẵ", "ặ", "â", "ấ", "ầ", "ẩ", "ẫ", "ậ", "đ", "é", "è", "ẻ", "ẽ", "ẹ", "ê", "ế", "ề", "ể", "ễ", "ệ", "í", "ì", "ỉ", "ĩ", "ị", "ó", "ò", "ỏ", "õ", "ọ", "ô", "ố", "ồ", "ổ", "ỗ", "ộ", "ơ", "ớ", "ờ", "ở", "ỡ", "ợ", "ú", "ù", "ủ", "ũ", "ụ", "ư", "ứ", "ừ", "ử", "ữ", "ự", "ý", "ỳ", "ỷ", "ỹ", "ỵ")
-        val replacement = arrayOf("a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "d", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "i", "i", "i", "i", "i", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "o", "u", "u", "u", "u", "u", "u", "u", "u", "u", "u", "u", "y", "y", "y", "y", "y")
 
-        var result = s
-        for (i in original.indices) {
-            result = result.replace(original[i], replacement[i])
-            result = result.replace(original[i].uppercase(), replacement[i].uppercase())
-        }
-        return result
-    }
 
 }
